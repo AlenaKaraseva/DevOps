@@ -1,0 +1,40 @@
+services:
+  frontend:
+    image: jupyter/scipy-notebook:2023-02-28
+    ports:
+      - "10000:8888"
+    networks:
+      - front-tier
+      - back-tier
+    # configs:
+    # - httpd-confi
+    # secrets:
+    #    - server-certificate
+
+  backend:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - db-data:/data/db
+    networks:
+      - back-tier
+
+volumes:
+  db-data:
+  # driver: flocker
+  # driver_opts:
+  #   size: "10GiB"
+
+# configs:
+#   httpd-config:
+#     external: true
+
+# secrets:
+#   server-certificate:
+#     external: true
+
+networks:
+  # The presence of these objects is sufficient to define them
+  front-tier: {}
+  back-tier: {}
